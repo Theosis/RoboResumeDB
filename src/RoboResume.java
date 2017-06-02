@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class RoboResume {
@@ -6,7 +7,10 @@ public class RoboResume {
 	
 		Scanner kb = new Scanner(System.in);
 		//fVariables are for form-filling:
-		String fName, fEmail, fEdAch, fEdAchOrg, fEdAchYr, fWrkXp, fSkill, fSkillLvl;
+		String fName, fEmail, fEdAch, fEdAchOrg, fEdAchYr; 
+		String fWrkXp, fWrkXpOrg, fWrkXpYrs; 
+		ArrayList<String> duties = new ArrayList<String>();
+		String fSkill, fSkillLvl;
 		boolean done;
 		int numItems;
 		Person fPerson;
@@ -45,6 +49,7 @@ public class RoboResume {
 					print("Year of Educational Achievement #"+ (numItems+1) +": ");
 					fEdAchYr = kb.nextLine();
 				} while (fEdAchYr.equals(""));	//No null entries allowed.
+				
 				fPerson.edAch.add(fEdAch + ", \n" + fEdAchOrg + ", " + fEdAchYr);
 			}
 			numItems = fPerson.edAch.size();
@@ -55,11 +60,28 @@ public class RoboResume {
 		numItems = 0;
 		do {
 			do {
-				print("Work Experience #"+ (numItems+1) +" (or done): ");
+				print("Work Experience (Role) #"+ (numItems+1) +" (or done): ");
 				fWrkXp = kb.nextLine();
 			} while (fWrkXp.equals(""));	//No null entries allowed.
 			done = fWrkXp.toUpperCase().equals("DONE");
-			if (!done) {fPerson.wrkXp.add(fWrkXp);}
+			if (!done) {
+				
+				do {  //skip entering Work Experience Org. and Years if Work Exp. is "DONE"
+					print("Organization of Work Experience #"+ (numItems+1) +": ");
+					fWrkXpOrg = kb.nextLine();
+				} while (fWrkXpOrg.equals(""));	//No null entries allowed.
+				do {  //Work period					
+					print("Period of Work Experience #"+ (numItems+1) +": ");
+					fWrkXpYrs = kb.nextLine();
+				} while (fWrkXpYrs.equals(""));	//No null entries allowed.
+				
+				//TODO: Add yet another do-while loop that reads duties until DONE, 
+				//					then use a for-each loop to add them to the fPerson.wrkXp list to be printed 
+				//					with the formatting chars included for pretty-printing.
+				
+				
+				fPerson.wrkXp.add(fWrkXp + ", \n" + fWrkXpOrg + ", " + fWrkXpYrs);
+			}
 			numItems = fPerson.wrkXp.size();
 		} while ( !(done  || (numItems > 9)) );
 		
@@ -97,7 +119,8 @@ public class RoboResume {
 			println(item);
 			println(" ");
 		}
-		println("\nSkills");
+		if (fPerson.wrkXp.size() == 0) {println(" ");}
+		println("Skills");
 		for (String item : fPerson.skills) {
 			println(item);
 		}		
