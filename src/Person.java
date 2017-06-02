@@ -1,53 +1,17 @@
+import java.util.ArrayList;
 
 public class Person {
+	
+	//Config parameters
+	final int maxEdAch = 10;		//Educational Achievements
+	final int maxWrkXp = 10;	//Work Experiences
+	final int maxSkills = 20;		//
 			
-	private String[] name  = new String[10];
-	private String[] email = new String[10];
+	String name;
+	String email;
+	ArrayList<String> edAch		= new ArrayList<String>(maxEdAch); 
+	ArrayList<String> wrkXp 	= new ArrayList<String>(maxWrkXp);
+	ArrayList<String> skills 			= new ArrayList<String>(maxSkills);
+	ArrayList<String> skillLvl 	= new ArrayList<String>(maxSkills);
 	
-	private String[] eduAchievement	= new String[10]; 
-	private String[] workExperience 	= new String[10];
-	private String[] skill 			= new String[20];
-	private String[] skillLevel 		= new String[20];
-	public String[] getName() {
-		return name;
-	}
-	public void setName(String[] name) {
-		this.name = name;
-	}
-	public String[] getEmail() {
-		return email;
-	}
-	public void setEmail(String[] email) {
-		this.email = email;
-	}
-	public String[] getEduAchievement() {
-		return eduAchievement;
-	}
-	public void setEduAchievement(String[] eduAchievement) {
-		this.eduAchievement = eduAchievement;
-	}
-	public String[] getWorkExperience() {
-		return workExperience;
-	}
-	public void setWorkExperience(String[] workExperience) {
-		this.workExperience = workExperience;
-	}
-	public String[] getSkill() {
-		return skill;
-	}
-	public void setSkill(String[] skill) {
-		this.skill = skill;
-	}
-	public String[] getSkillLevel() {
-		return skillLevel;
-	}
-	public void setSkillLevel(String[] skillLevel) {
-		this.skillLevel = skillLevel;
-	}
-	
-
-	
-	
-	
-
 }
