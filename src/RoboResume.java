@@ -1,11 +1,18 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 public class RoboResume {
-	
+			
 		public static void main(String[] args) {
-	
+/*
 		Scanner kb = new Scanner(System.in);
+		
 		//fVariables are for form-filling:
 		String fName, fEmail, fEdAch, fEdAchOrg, fEdAchYr; 
 		String fWrkXp, fWrkXpOrg, fWrkXpYrs; 
@@ -104,6 +111,61 @@ public class RoboResume {
 			numItems = fPerson.skills.size();
 		} while ( !(  (done && (numItems >= 1)) || (numItems > 19)  ) );
 		
+
+*/
+	//***********************		
+	//***  DATABASE OPS *****		
+	//***********************
+		
+		//DB handles
+		Connection con = null;
+		Statement stmt = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT * FROM person;" ;
+		
+		//Connects to the app's  predetermined db; executes sql statement
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			con 	= DriverManager.getConnection("jdbc:mysql://localhost/cv?" + "user=root&password=password");
+			stmt 	= con.createStatement();
+			rs 	= stmt.executeQuery(sql);
+			pst 	= con.prepareStatement("INSERT INTO person (name, email) VALUES (?);");
+			pst.setString(1, "John");
+			pst.setString(2, "Jeremiah");
+			pst.executeUpdate();
+				
+			while(rs.next()) {			
+			System.out.println( rs.getString("name") + "'s email is " + rs.getString("email") );
+			}
+				
+		} 
+		catch (SQLException e) 
+					{
+						e.printStackTrace();
+					} 
+		catch (ClassNotFoundException e) 
+					{
+						e.printStackTrace();
+					} 
+		finally 
+					{
+					try
+						{
+							rs.close();
+							stmt.close();
+							con.close();
+						} 
+					catch (SQLException e) 
+								{
+									e.printStackTrace();
+								}
+					}
+//************************************************************************
+//***  END OF DATABASE OPS  **********************************************		
+//************************************************************************		
+/*		
 		
 		println("\n=============================================================");
 		println(fPerson.name);
@@ -123,15 +185,22 @@ public class RoboResume {
 		println("Skills");
 		for (String item : fPerson.skills) {
 			println(item);
-		}		
+		}	
+		
 		kb.close();
-		}
+*/		} // *** END OF MAIN ************************************************
 
+
+	//************************		
+	//***  AUX FUNCTIONS ***		
+	//************************
+	
 	public static void println(String msg) {
 		System.out.println(msg);
 	}
 	
 	public static void print(String msg) {
 		System.out.println(msg);
+		
 	}
 }
